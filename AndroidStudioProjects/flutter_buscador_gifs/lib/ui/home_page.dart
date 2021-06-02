@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:share/share.dart';
-
+import "package:transparent_image/transparent_image.dart";
 import 'gif_page.dart';
 
 class HomePage extends StatefulWidget { // páginas dinâmicas -> stateful
@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   Future<Map> _getGifs() async {
     http.Response response;
 
-    if (_search == null)
+    if (_search == null || _search.isEmpty)
       response = await http.get(
           "https://api.giphy.com/v1/gifs/trending?api_key=gSd2L8sUmVQ3R6ZwLWW5PTOZopcFMJ7G&limit=20&rating=g");
     else
@@ -115,10 +115,11 @@ class _HomePageState extends State<HomePage> {
           if(_search == null || index < snapshot.data["data"].length){
             return GestureDetector(
               //serve para poder clicar na imagem e mostrar em uma outra página
-              child: Image.network(
-                snapshot.data["data"][index]["images"]["fixed_height"]["url"],
-                height: 300.0,
-                fit: BoxFit.cover,
+              child: FadeInImage.memoryNetwork( // não deixa a imagem aparecer muito rápido, melhorando o estilo da aplicação
+                  placeholder: kTransparentImage, //imagem transparente através do plugin "transparent_image"
+                  image: snapshot.data["data"][index]["images"]["fixed_height"]["url"],
+                  height: 300.0,
+                  fit: BoxFit.cover,
               ),
               onTap: (){
                 Navigator.push(context, // para ir para outra tela
