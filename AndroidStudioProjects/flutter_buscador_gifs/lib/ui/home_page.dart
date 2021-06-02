@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:share/share.dart';
 
 import 'gif_page.dart';
 
@@ -123,6 +124,9 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(context, // para ir para outra tela
                 MaterialPageRoute(builder: (context) => GifPage(snapshot.data["data"][index]) ) // cria a rota
                 );
+              },
+              onLongPress: (){
+                Share.share(snapshot.data["data"][index]["images"]["fixed_height"]["url"]); //quando tocar na imagem, dar a opção de compartilhar
               },
             );
           }
