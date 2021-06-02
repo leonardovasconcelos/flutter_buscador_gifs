@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class HomePage extends StatefulWidget {
+import 'gif_page.dart';
+
+class HomePage extends StatefulWidget { // páginas dinâmicas -> stateful
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -117,6 +119,11 @@ class _HomePageState extends State<HomePage> {
                 height: 300.0,
                 fit: BoxFit.cover,
               ),
+              onTap: (){
+                Navigator.push(context, // para ir para outra tela
+                MaterialPageRoute(builder: (context) => GifPage(snapshot.data["data"][index]) ) // cria a rota
+                );
+              },
             );
           }
           else
